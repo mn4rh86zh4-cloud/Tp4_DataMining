@@ -7,11 +7,6 @@ env/
 __pycache__/
 *.pyc
 
-# Data files (too large for GitHub)
-notebook/online_retail.csv
-notebook/online_retail.parquet
-data/
-
 # Temp files
 matches.txt
 

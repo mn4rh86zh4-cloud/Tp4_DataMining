@@ -1,0 +1,99 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, mathrsfs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{a4paper, margin=2.5cm}
+
+\title{Projet de Data Mining \\ \large Segmentation Stratégique des Clients (Modèle RFM)}
+\author{[VOTRE NOM] - [VOTRE MATRICULE]}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Introduction}
+\subsection{Contexte métier}
+Dans un marché du commerce électronique hautement concurrentiel, la compréhension des comportements d'achat des clients est primordiale. Les entreprises collectent des volumes massifs de données transactionnelles qu'il est nécessaire de transformer en connaissances stratégiques.
+\subsection{Problématique}
+Comment regrouper les clients d'une entreprise e-commerce selon leurs comportements d'achat historiques afin de maximiser le retour sur investissement des campagnes marketing ?
+\subsection{Objectifs}
+L'objectif de ce projet est de concevoir un pipeline complet de Data Mining utilisant le modèle RFM (Récence, Fréquence, Montant) et l'algorithme K-Means pour segmenter la base clientèle, puis d'en déduire des actions commerciales ciblées.
+
+\section{Présentation du dataset}
+\subsection{Origine}
+Le \textit{Online Retail Dataset} \cite{uci_online_retail} est fourni par le UCI Machine Learning Repository.
+\subsection{Variables et nature des données}
+Il s'agit de données transactionnelles (factures) d'un magasin de détail en ligne basé au Royaume-Uni. Les variables clés incluent \texttt{InvoiceNo}, \texttt{StockCode}, \texttt{Quantity}, \texttt{InvoiceDate}, \texttt{UnitPrice}, et \texttt{CustomerID}.
+
+\section{Prétraitement}
+Le nettoyage des données du monde réel est essentiel avant la modélisation.
+\subsection{Gestion des nulls}
+Les lignes dépourvues de \texttt{CustomerID} ont été supprimées car il est impossible de les associer à un comportement client spécifique.
+\subsection{Suppression des anomalies et nettoyage métier}
+Nous avons supprimé les factures annulées (dont \texttt{InvoiceNo} commence par "C") ainsi que les transactions présentant des quantités ou des prix unitaires inférieurs ou égaux à zéro.
+
+\section{Feature Engineering}
+\subsection{Définition théorique de RFM}
+Le modèle RFM est une méthode empirique d'analyse marketing :
+\begin{itemize}
+    \item \textbf{Récence (R) :} Le temps écoulé depuis la dernière commande.
+    \item \textbf{Fréquence (F) :} Le nombre de commandes uniques passées sur la période.
+    \item \textbf{Montant (M) :} La valeur monétaire totale dépensée par le client.
+\end{itemize}
+\subsection{Importance business}
+La transformation des transactions en structure "1 ligne = 1 client" permet de profiler chaque individu plutôt que chaque achat.
+
+\section{Transformation des données}
+\subsection{Asymétrie et Log transformation}
+La distribution initiale des montants est fortement asymétrique vers la droite. Nous appliquons une transformation logarithmique $x \mapsto \log(x+1)$ pour lisser l'impact des valeurs extrêmes.
+\subsection{Standardisation}
+L'algorithme K-Means est sensible aux échelles. Nous appliquons la méthode \texttt{StandardScaler} pour obtenir des variables de moyenne nulle et de variance unitaire.
+
+\section{K-Means}
+\subsection{Principe mathématique et Distance euclidienne}
+L'algorithme K-Means partitionne les observations en $K$ clusters en minimisant l'inertie intra-classe, souvent mesurée via la distance euclidienne :
+\begin{equation}
+    J = \sum_{j=1}^{K} \sum_{i \in C_j} || x_i - \mu_j ||^2
+\end{equation}
+\subsection{Choix du K (Elbow Method et Silhouette Score)}
+La méthode du coude et le score de Silhouette sont utilisés conjointement pour déterminer le nombre optimal de clusters. Le "coude" de l'inertie et le pic de Silhouette indiquent souvent $K=3$ comme le compromis optimal.
+
+\section{Résultats}
+\subsection{Description des clusters}
+(Les tableaux et figures de l'analyse en composantes principales (PCA) et 3D sont générés dans le Notebook et peuvent être insérés ici via le dossier \texttt{figures/}).
+% \begin{figure}[h]
+%     \centering
+%     \includegraphics[width=0.7\textwidth]{figures/pca2d.png}
+%     \caption{Scatter plot PCA 2D coloré par cluster}
+% \end{figure}
+
+\section{Interprétation métier}
+Les trois clusters peuvent être interprétés de la façon suivante :
+\begin{itemize}
+    \item \textbf{Champions :} Clients à faible récence, haute fréquence et montant élevé.
+    \item \textbf{Clients occasionnels / Nouveaux :} Récence, fréquence et montant moyens.
+    \item \textbf{Clients à risque de départ :} Forte récence (inactifs), faible fréquence et faible montant.
+\end{itemize}
+
+\section{Recommandations commerciales}
+\begin{itemize}
+    \item \textbf{Champions :} Création d'un programme VIP et recommandations de produits premiums sans remises massives.
+    \item \textbf{Clients occasionnels :} Campagnes de promotions ciblées pour les inciter au rachat (ex: livraison offerte).
+    \item \textbf{Clients à risque :} Campagne de réactivation agressive ("Vous nous manquez !") avec fortes réductions temporaires.
+\end{itemize}
+
+\section{Conclusion}
+Ce projet démontre l'efficacité de l'alliance du modèle RFM et de l'algorithme K-Means pour transformer des données brutes en segments actionnables. Les limites actuelles incluent la nature statique de l'analyse. Une amélioration future pourrait inclure des modèles prédictifs du churn (attrition) ou la prise en compte du \textit{Customer Lifetime Value} (CLV).
+
+\bibliographystyle{plain}
+\bibliography{bibliography}
+
+\end{document}

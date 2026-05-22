@@ -1,0 +1,17 @@
+# Virtual environments
+venv/
+env/
+.env/
+__pycache__/
+*.pyc
+
+# Data files (too large for GitHub)
+notebook/online_retail.csv
+notebook/online_retail.parquet
+
+# Temp files
+matches.txt
+
+# IDE
+.vscode/
+.idea/

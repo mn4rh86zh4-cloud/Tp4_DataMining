@@ -31,3 +31,7 @@ Ce projet de Data Mining implémente une segmentation client en utilisant le mod
 ## 📊 Objectif
 
 L'objectif est d'identifier différents profils de clients (comme les "Champions" ou les "Clients à risque") grâce aux données d'achat, afin de proposer des recommandations marketing adaptées.
+
+## 🎥 Présentation (Soutenance)
+
+- [Vidéo de la soutenance (Loom)](https://www.loom.com/share/44ea477f252e4af48363905b46365675)

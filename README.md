@@ -1,61 +1,85 @@
-# Projet de Data Mining : Segmentation Stratégique RFM avec K-Means
+# Projet Data Mining - Segmentation Client (RFM & K‑Means) - 2026
 
-Ce dépôt contient le code, le notebook et le rapport d'un pipeline complet de Data Mining visant à segmenter les clients d'un commerce de détail en ligne. Le projet utilise le modèle **RFM** (Récence, Fréquence, Montant) couplé à l'algorithme de clustering **K-Means**.
+**Étudiants :**  
+- C25496 Chighaly Khairy  
+- C26144 Mostapha Mohamed Lfadel  
+- C30175 Oum elkheir aliyine babah  
 
-## 📊 Description du Projet
+Ce dossier contient les livrables finaux pour le projet académique de Data Mining.
 
-L'objectif métier est de regrouper les clients selon leurs comportements d'achat historiques afin de lancer des campagnes marketing personnalisées. À partir du dataset **Online Retail Dataset** (provenant de l'UCI / Kaggle), le projet aborde les problématiques suivantes :
-- Prétraitement et nettoyage de données réelles (valeurs manquantes, anomalies).
-- Feature Engineering pour extraire les indicateurs RFM.
-- Entraînement et optimisation d'un modèle non supervisé (K-Means).
-- Interprétation métier des clusters obtenus et recommandations d'actions marketing.
+## 📋 Sujets Traités
 
-## 📁 Structure du Dépôt
+Conformément aux consignes, un problème de segmentation client a été modélisé et résolu :
 
-```
-projet-data-mining-rfm/
-│
-├── data/
-│   ├── online_retail.csv        # Données brutes converties en CSV (Généré à l'exécution)
-│   ├── online_retail.parquet    # Données optimisées pour la lecture (Généré à l'exécution)
-│
-├── notebook/
-│   ├── DataMining_RFM_KMeans.ipynb # Notebook contenant tout le code et les analyses
-│
-├── report/
-│   ├── rapport_overleaf.tex     # Code source LaTeX du rapport académique
-│   ├── bibliography.bib         # Bibliographie pour le rapport
-│   ├── figures/                 # Dossier pour les figures générées (pour inclusion LaTeX)
-│
-├── requirements.txt             # Liste des dépendances Python
-├── README.md                    # Ce fichier
-```
+- **Segmentation client par RFM et K‑Means** – Catégorie : Marketing / Analyse client  
 
-## 🛠️ Installation
+Les étapes réalisées sont :  
+1. **Acquisition et ingestion des données** – Chargement du CSV et conversion en Parquet, avec comparaison des performances.  
+2. **Nettoyage des données** – Suppression des CustomerID manquants, des factures annulées (InvoiceNo commençant par 'C'), des quantités négatives et des prix nuls.  
+3. **Construction du modèle RFM** – Extraction des trois indicateurs (Récence, Fréquence, Montant) par client.  
+4. **Transformation et normalisation** – Application de la transformation logarithmique `log(x+1)` pour réduire l'asymétrie, suivie d'une normalisation par `StandardScaler`.  
+5. **Clustering K‑Means** – Détermination du nombre optimal de clusters par la méthode du coude (Elbow) et le score de silhouette.  
+6. **Interprétation métier** – Identification des segments « Champions » (clients récents, fréquents et à fort montant) et « Clients à risque » (clients inactifs ou peu actifs).  
+7. **Visualisations 2D et 3D** – Représentation graphique de la séparation des clusters pour validation visuelle.  
+8. **Recommandations marketing** – Stratégies différenciées pour chaque segment (rétention, réactivation, cross-selling, etc.).
 
-1. Assurez-vous d'avoir Python 3.8+ installé.
-2. Clonez ce dépôt sur votre machine locale.
-3. Installez les dépendances requises en utilisant `pip` :
+## 📁 Structure des Fichiers
+
+| Fichier | Description |
+|---------|-------------|
+| `TP_DataMining_Probleme_9.ipynb` | Notebook Jupyter contenant tout le code, les visualisations 2D/3D et les commentaires détaillés. |
+| `online_retail.csv` | Jeu de données source (disponible sur UCI / Kaggle) – déjà fourni dans le répertoire `data/`. |
+| `requirements.txt` | Liste des dépendances Python nécessaires pour l'exécution. |
+| `README.md` | Ce fichier explicatif. |
+
+## 🛠️ Prérequis et Installation
+
+Pour exécuter le notebook, vous devez disposer de Python (≥ 3.8). Installez les dépendances avec :
 
 ```bash
 pip install -r requirements.txt
 ```
 
+### Dépendances principales
+
+- `pandas` : manipulation et analyse de données  
+- `numpy` : calculs numériques  
+- `scikit-learn` : modèles de machine learning (K-Means, StandardScaler)  
+- `matplotlib` et `seaborn` : visualisations 2D  
+- `plotly` : visualisations interactives (optionnel)  
+- `pyarrow` : support du format Parquet  
+
 ## 🚀 Exécution
 
-1. Lancez Jupyter Notebook ou Jupyter Lab :
+1. Ouvrez une terminal et accédez au répertoire du projet :
+```bash
+cd chemin/vers/projet-data-mining-rfm
+```
+
+2. Lancez Jupyter Notebook ou Jupyter Lab :
 ```bash
 jupyter notebook
 ```
-2. Ouvrez le fichier `notebook/DataMining_RFM_KMeans.ipynb`.
-3. Exécutez les cellules de haut en bas. 
-   - *Note : Lors de la première exécution, le code se chargera de télécharger le fichier Excel original (~24 MB) depuis UCI et de générer les fichiers CSV et Parquet dans le dossier `data/`.*
+
+3. Ouvrez le fichier `notebook/TP_DataMining_Probleme_9.ipynb`.
+
+4. Exécutez les cellules de haut en bas. Le notebook chargera automatiquement le fichier CSV du répertoire `data/` et générera un fichier Parquet temporaire à des fins de comparaison de performance.
 
 ## 📈 Résultats et Livrables
 
-- **Notebook complet :** Code commenté, visualisations (2D PCA, 3D Scatter, Boxplots, Heatmap) et interprétation.
-- **Rapport Académique :** Vous pouvez importer le dossier `report/` directement dans Overleaf pour compiler le PDF final détaillant l'approche méthodologique et les résultats.
+- **Notebook complet :** 
+  - Code Python commenté et structuré en sections claires  
+  - Visualisations détaillées : distributions RFM, courbes Elbow et Silhouette, scatter plots 2D et 3D  
+  - Tableaux récapitulatifs des statistiques par cluster  
+  - Interprétation métier des résultats  
 
-## ⚙️ Contraintes Techniques
-- Python 3.x
-- Bibliothèques principales : `pandas`, `numpy`, `scikit-learn`, `matplotlib`, `seaborn`, `plotly`.
+- **Segments identifiés :**  
+  - **Cluster 1 – Champions** : Clients récents (R faible), fréquents (F élevé), à fort montant (M élevé) → Actions : fidélisation premium, offres exclusives  
+  - **Cluster 2 – Clients à risque** : Clients inactifs (R élevé), peu fréquents (F faible), faible montant (M faible) → Actions : campagnes de réactivation, offres spéciales  
+
+## 📊 Points Clés de l'Analyse
+
+- **K optimal** : Déterminé par la méthode du coude et validé par le score de silhouette  
+- **Asymétrie** : Réduite par transformation logarithmique pour une normalisation efficace  
+- **Scalabilité** : Solution exécutée sur ~4000 clients segmentés (après nettoyage)  
+- **Performance** : Comparaison CSV vs Parquet montre un gain de compression ~13×
